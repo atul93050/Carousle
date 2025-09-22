@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation Carousle </title>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lobster&family=Monda:wght@400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Quicksand:wght@300..700&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+
+        }
+
+        /* SLIDER */
+        .hero-slider {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .hero-slide {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+        }
+
+        .hero-slide__image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-slide__overlay {
+            background: linear-gradient(135deg, rgba(6, 147, 227, 1) 0%, rgb(155, 81, 224) 100%);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.7;
+        }
+
+        .slide-2 .hero-slide__overlay {
+            background: linear-gradient(135deg, rgba(255, 105, 0, 1) 0%, rgb(207, 46, 46) 100%);
+        }
+
+        .slide-3 .hero-slide__overlay {
+            background: linear-gradient(135deg, rgb(122, 220, 180) 0%, rgb(0, 208, 130) 100%);
+        }
+
+        .slide-4 .hero-slide__overlay {
+            background: linear-gradient(135deg, rgb(2, 3, 129) 0%, rgb(40, 116, 252) 100%);
+        }
+
+        .hero-slide__content {
+            position: absolute;
+            inset: 0;
+            text-align: left;
+            color: #fff;
+            z-index: 2;
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .content-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 60px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .inner-content {
+            text-align: left;
+        }
+
+        .inner-content,
+        .image-content {
+            flex: 1 1 50%;
+
+        }
+
+        .image-content {
+            position: relative;
+            min-height: 500px;
+        }
+
+        .hero-slide__title {
+            font-size: 55px;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        .hero-slide__subtitle {
+            font-size: 1.4rem;
+            margin: 10px 0;
+            color: RGBA(0, 0, 0, 0.67);
+        }
+
+        /* Typing text */
+        .typing-text {
+            display: inline-flex;
+            font-size: 55px;
+            font-weight: bold;
+            color: white;
+            white-space: nowrap;
+            margin-bottom: 15px;
+            height: 57px;
+            line-height: 57px;
+            position: relative;
+        }
+
+        .typing-text::after {
+            content: "|";
+            display: inline-block;
+            margin-left: 4px;
+            animation: blink 1s infinite;
+            color: white;
+            font-weight: 100;
+        }
+
+        @keyframes blink {
+
+            0%,
+            50% {
+                opacity: 1;
+            }
+
+            51%,
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* Social icons */
+        .social-icons {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .social-icons img {
+            width: 32px;
+        }
+
+        .slide-2 .image-content img {
+            position: absolute;
+        }
+
+        .slide-2 .phone-img {
+            z-index: 3;
+            height: 592px;
+            top: 0;
+            left: 100px;
+        }
+
+        .slide-2 .bakelit-img {
+            z-index: 1;
+            height: 355px;
+            bottom: 40px;
+            top: 20%;
+        }
+
+        .slide-2 .album-img {
+            z-index: 2;
+            height: 369px;
+            top: 20%;
+            left: 0;
+            display: block;
+            width: auto;
+            transform-origin: 50% 0%;
+
+        }
+
+
+
+        .album-drop,
+        .bakelit-slideInFromRight,
+        .phone-fadeInUp {
+            animation-fill-mode: forwards;
+
+        }
+
+        .webproject-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 500px;
+        }
+
+        .airplane-img {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+
+        /* ==============================
+           Animation 
+           ==============================
+        */
+
+        .airoplane-animation {
+            animation: airoplane-animation 1s ease-out forwards;
+        }
+
+        @keyframes airoplane-animation {
+            from {
+                opacity: 0;
+                transform: translate(-100px, -6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate(10px, 82px);
+            }
+
+        }
+
+        .text-left-to-right {
+            opacity: 0;
+            transform: translateX(-80px);
+            visibility: hidden;
+        }
+
+        .text-left-to-right.animate {
+            visibility: visible;
+            animation: textSlideIn 1s ease-out forwards;
+        }
+
+        @keyframes textSlideIn {
+            0% {
+                opacity: 0;
+                transform: translateX(-80px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+
+        .album-drop {
+            animation: albumDrop 1s cubic-bezier(.645, .045, .355, 1) forwards;
+        }
+
+        @keyframes albumDrop {
+            0% {
+                transform: rotateX(90deg);
+                opacity: 0;
+            }
+
+            50% {
+                transform: rotateX(-50deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: rotateX(0deg);
+                opacity: 1;
+            }
+        }
+
+        .bakelit-slideInFromRight {
+            animation: bakelit-slideInFromRight 1s cubic-bezier(.645, .045, .355, 1) forwards;
+        }
+
+        @keyframes bakelit-slideInFromRight {
+            from {
+                opacity: 0;
+                transform: rotate(0deg);
+                right: 100px;
+            }
+
+            to {
+                opacity: 1;
+                transform: rotate(360deg);
+                right: 0px;
+            }
+        }
+
+        .phone-fadeInUp {
+            animation: fadeInUp 1s cubic-bezier(.645, .045, .355, 1) forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /*
+        ======================
+        CONTACT FORM CSS
+        ======================
+
+        */
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 10px;
+            border-radius: 3px;
+            background: #fff;
+            padding: 20px 40px;
+            width: 100%;
+            max-width: 500px;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .contact-form label {
+            display: block;
+            color: #949eaa;
+            font-family: montserrat;
+            font-size: 14px;
+            margin-bottom: 10px;
+            text-align: center;
+
+        }
+
+        .contact-form .message-box,
+        .contact-form .input-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .contact-form input[type="text"] {
+            background: #f2f5fa;
+            border-radius: 3px;
+            border: 1px solid #dee2e5;
+            line-height: 38px;
+            height: 38px;
+            padding: 0 20px;
+            color: #949eaa;
+            box-sizing: border-box;
+            width: 100%;
+            margin-bottom: 20px;
+            outline: none;
+        }
+
+        .contact-form textarea {
+            background: #f2f5fa;
+            border-radius: 3px;
+            border: 1px solid #dee2e5;
+            line-height: 20px;
+            padding: 10px 20px;
+            color: #949eaa;
+            box-sizing: border-box;
+            width: 100%;
+            height: 200px;
+            margin-bottom: 20px;
+            resize: none;
+        }
+
+        .contact-form .btn-box {
+            background: #f2f5fa;
+            margin: 0 -40px -20px;
+            text-align: center;
+            border-top: 1px solid #dee2e5;
+            padding: 20px 40px;
+        }
+
+        .contact-form button[type="submit"] {
+            display: block;
+            background: #0050cd;
+            line-height: 44px;
+            border: 0;
+            width: 100%;
+            border-radius: 99px;
+            font-family: montserrat;
+            font-size: 14px;
+            color: #fff;
+            box-sizing: border-box;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .contact-form input[type="text"]:focus,
+        .contact-form textarea:focus {
+            border-color: #0050cd;
+            box-shadow: 0 0 0 3px rgba(0, 80, 205, 0.1);
+        }
+
+        /* =================
+            slick carousle css
+           =================
+        */
+
+        .hero-slider .slick-prev,
+        .hero-slider .slick-next {
+            position: absolute;
+            top: 50%;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            width: 32px;
+            height: 32px;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            z-index: 99;
+        }
+
+        .hero-slider .slick-next {
+            right: 20px;
+            background: url('images/next.svg');
+        }
+
+        .hero-slider .slick-prev {
+            left: 20px;
+            background-image: url('images/previous.svg');
+        }
+
+        .hero-slider .slick-dots {
+            position: absolute;
+            bottom: 20px;
+            display: block;
+            width: 100%;
+            padding: 0 5px;
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            list-style: none;
+            text-align: center;
+        }
+
+        .hero-slider .slick-dots li {
+            position: relative;
+            display: inline-block;
+            width: auto;
+            height: auto;
+            margin: 0;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .hero-slider .slick-dotted.slick-slider {
+            margin-bottom: 0 !important;
+        }
+
+        .hero-slider .slick-dots li button {
+            font-family: 'Montserrat', 'Arial';
+            font-size: 12px;
+            line-height: 1.2;
+            border-radius: 50%;
+            width: 26px;
+            height: 26px;
+            font-weight: 600;
+            color: #ffffff80;
+        }
+
+        .hero-slider .slick-dots li button:before {
+            display: none !important;
+        }
+
+        .hero-slider .slick-active button {
+            color: #fff !important;
+            border: 2px solid #fff !important;
+        }
+
+        .hero-slider .slick-prev:before,
+        .hero-slider .slick-next:before {
+            display: none;
+        }
+
+
+
+        /* Button Styling */
+
+
+        /* ------------------ BASE GROUP ------------------ */
+        .btn-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-group a {
+            display: inline-block;
+            padding: 14px 30px;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', 'Arial', sans-serif;
+            font-size: 0.875rem;
+            text-shadow: none;
+            line-height: 1.5;
+            font-weight: 500;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* ------------------ BUTTON VARIANTS ------------------ */
+        .filled-btn {
+            background-color: #fff;
+            border: 2px solid #fff;
+            color: #013ca7;
+        }
+
+        .outline-btn {
+            background-color: transparent;
+            border: 2px solid #fff;
+            color: #fff;
+        }
+
+        .filled-btn:hover {
+            background-color: transparent;
+            color: #fff;
+        }
+
+        .outline-btn:hover {
+            background-color: #fff;
+            color: #013ca7;
+        }
+
+        /* ------------------ SLIDE COLOR ------------------ */
+        .slide-2 .filled-btn,
+        .slide-2 .outline-btn:hover {
+            color: #d74d17;
+        }
+
+        .slide-2 .filled-btn:hover,
+        .slide-3 .filled-btn:hover {
+            color: #fff;
+        }
+
+        .slide-3 .filled-btn,
+        .slide-3 .outline-btn:hover {
+            color: #14754d;
+        }
+
+        .slide-4 .outline-btn:hover {
+            color: #3871c2;
+        }
+
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                flex-direction: column;
+                text-align: center;
+                gap: 40px;
+            }
+
+            .inner-content {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+
+            .image-content {
+                display: none;
+            }
+
+            .contact-form {
+                display: none;
+            }
+
+            .hero-slide__title {
+                font-size: 1.8rem;
+                margin-bottom: 5px;
+                line-height: 1.1;
+            }
+
+            .hero-slide__subtitle {
+                font-size: 0.9rem;
+            }
+
+            .typing-text {
+                font-size: 1.8rem;
+                height: auto;
+                line-height: normal;
+                margin-bottom: 0px;
+            }
+
+            .btn-group a {
+                font-size: 0.675rem;
+                padding: 1em 2.2em 1em 2.2em;
+            }
+
+            .hero-slider .social-icons {
+                padding: 10px 10px 10px 10px;
+            }
+
+            .hero-slider .slick-dots {
+                bottom: 10px;
+            }
+
+            .hero-slider .slick-next {
+                right: 10px;
+            }
+
+            .hero-slider .slick-prev {
+                left: 10px;
+            }
+        }
+
+        .slick-dotted.slick-slider {
+            margin-bottom: 0px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="hero-slider">
+
+        <div class="hero-slide slide-1">
+
+            <img src="images/layerslider1.webp" alt="Background Image" class="hero-slide__image">
+            <div class="hero-slide__overlay"></div>
+            <div class="hero-slide__content">
+                <div class="content-wrapper">
+                    <div class="inner-content">
+                        <h2 class="hero-slide__title text-left-to-right">Hello.</h2>
+                        <h2 class="hero-slide__title text-left-to-right">I Am Megan.</h2>
+
+                        <div class="typing-text text-left-to-right"></div>
+
+                        <p class="hero-slide__subtitle text-left-to-right">I craft <b>simple & clean</b> design
+                            solutions
+                            <b>for web &
+                                mobile.</b>
+                        </p>
+                        <p class="hero-slide__subtitle text-left-to-right">Want to see more? Take a look at my work.</p>
+
+                        <div class="btn-group">
+                            <a href="#" class="filled-btn text-left-to-right">My Works</a>
+                            <a href="#" class="outline-btn text-left-to-right">Contact</a>
+                        </div>
+
+                        <div class="social-icons">
+                            <a href="#" class="text-left-to-right" arial-label="Instagram"><img src="images/instagram.png"
+                                    alt="Instagram" aria-hidden="true"></a>
+                            <a href="#" class="text-left-to-right" aria-label="Twitter"><img src="images/twitter.webp"
+                                    alt="Twitter" aria-hidden="true"></a>
+                            <a href="#" class="text-left-to-right" arial-label="Dribble"><img src="images/dribbble.png"
+                                    alt="Dribbble" aria-hidden="true"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-slide slide-2">
+
+            <img src="images/layerslider2.webp" alt="Background Image" class="hero-slide__image">
+            <div class="hero-slide__overlay"></div>
+            <div class="hero-slide__content">
+                <div class="content-wrapper">
+                    <div class="inner-content">
+                        <img src="images/MusicApp.webp" alt="" class="text-left-to-right">
+                        <h2 class="hero-slide__title text-left-to-right ">Introducing</h2>
+                        <h2 class="hero-slide__title text-left-to-right "> my music app</h2>
+
+                        <p class="hero-slide__subtitle text-left-to-right ">Find new & trending music on your mobile.
+                            Hear
+                            the world’s music
+                            now. Rock on! </p>
+
+                        <div class="btn-group">
+                            <a href="#" class="filled-btn text-left-to-right ">Next Project</a>
+                            <a href="#" class="outline-btn text-left-to-right ">More</a>
+                        </div>
+
+                        <div class="social-icons">
+                            <a href="#" class="text-left-to-right "><img src="images/android.png" alt="Instagram"></a>
+                            <a href="#" class="text-left-to-right "><img src="images/apple.png" alt="Twitter"></a>
+                        </div>
+                    </div>
+                    <div class="image-content">
+                        <img src="images/iphone.webp" alt="" class="phone-img">
+                        <img src="images/bakelit.webp" alt="" class="bakelit-img">
+                        <img src="images/album.png" alt="" class="album-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-slide slide-3">
+
+            <img src="images/layerslider3.webp" alt="Background Image" class="hero-slide__image">
+            <div class="hero-slide__overlay"></div>
+            <div class="hero-slide__content">
+                <div class="content-wrapper">
+                    <div class="inner-content">
+                        <img src="images/adventurelogo.webp" alt="" class="text-left-to-right">
+                        <h2 class="hero-slide__title text-left-to-right ">Adventure</h2>
+                        <h2 class="hero-slide__title text-left-to-right ">Web Project</h2>
+
+                        <p class="hero-slide__subtitle text-left-to-right ">You can add geotagged photosand notes to
+                            help
+                            guide others through your journey.
+                        </p>
+                        <div class="btn-group">
+                            <a href="#" class="filled-btn text-left-to-right ">Next Project</a>
+                            <a href="#" class="outline-btn text-left-to-right ">More</a>
+                        </div>
+
+                    </div>
+                    <div class="image-content">
+                        <img src="images/webproject.webp" alt="" class="webproject-img">
+                        <img src="images/airplane2.png" alt="" class="airplane-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-slide slide-4">
+
+            <img src="images/layerslider3.webp" alt="Background Image" class="hero-slide__image">
+            <div class="hero-slide__overlay"></div>
+            <div class="hero-slide__content">
+                <div class="content-wrapper">
+                    <div class="inner-content">
+                        <h2 class="hero-slide__title text-left-to-right ">Contact.</h2>
+                        <p class="hero-slide__subtitle text-left-to-right ">Hey! Got a project in your mind? Want to
+                            work
+                            with me? Feel free to shoot me an email or catch me on one of the social links below.
+                        </p>
+                        <div class="btn-group">
+                            <a href="#" class="outline-btn text-left-to-right ">Direct Mail</a>
+
+                        </div>
+
+                    </div>
+                    <div class="contact-form text-left-to-right">
+                        <form action="">
+                            <div class="input-box">
+                                <label for="email">Email</label>
+                                <input type="text" id="email">
+                            </div>
+                            <div class="message-box">
+                                <label for="message">Name</label>
+                                <textarea name="message" id="message"></textarea>
+                            </div>
+                            <div class="btn-box">
+                                <button type="submit" class="filled-btn">Send Message</button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- Slick JS -->
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+    <script>
+        // Typing effect
+        const texts = [
+            "Ui&UX Designer.",
+            "Web Developer.",
+            "Graphic Designer.",
+            "Photographer."
+        ];
+
+        const typingContainer = document.querySelector(".typing-text");
+        let textIndex = 0;
+        let charIndex = 0;
+
+        function type() {
+            if (charIndex < texts[textIndex].length) {
+                typingContainer.textContent += texts[textIndex].charAt(charIndex);
+                charIndex++;
+                setTimeout(type, 200);
+            } else {
+                setTimeout(erase, 2000);
+            }
+        }
+
+        function erase() {
+            if (charIndex > 0) {
+                typingContainer.textContent = texts[textIndex].substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(erase, 100);
+            } else {
+                textIndex = (textIndex + 1) % texts.length;
+                setTimeout(type, 800);
+            }
+        }
+        type();
+
+        $(document).ready(function () {
+            $(".hero-slider").on("init", function (event, slick) {
+                const $firstSlide = $(slick.$slides[0]);
+
+                // Animate texts
+                $firstSlide.find(".text-left-to-right").each(function (i) {
+                    $(this)
+                        .css("animation-delay", `${i * 0.3}s`)
+                        .removeClass("animate");
+
+                    void this.offsetWidth;
+
+                    $(this)
+                        .addClass("animate")
+                });
+
+
+            });
+
+            $(".hero-slider").slick({
+                dots: true,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                arrows: true,
+                infinite: true,
+                speed: 1000,
+                cssEase: "linear",
+                autoplay: true,
+                autoplaySpeed: 400000,
+            });
+
+            // Before slide change
+            $(".hero-slider").on("beforeChange", function (event, slick, current, next) {
+                $(slick.$slides[next])
+                    .find(".album-img, .bakelit-img, .phone-img, .webproject-img, .airplane-img")
+                    .css("opacity", "0")
+                    .removeClass("album-drop bakelit-slideInFromRight phone-fadeInUp airoplane-animation");
+
+                $(slick.$slides[next])
+                    .find(".text-left-to-right")
+                    .css("opacity", "0")
+                    .removeClass("animate");
+            });
+
+            // After slide change
+            $(".hero-slider").on("afterChange", function (event, slick, currentSlide) {
+                const $slide = $(slick.$slides[currentSlide]);
+
+                $slide.find(".text-left-to-right").each(function (i) {
+                    $(this)
+                        .css("animation-delay", `${i * 0.3}s`)
+                        .removeClass("animate");
+
+                    void this.offsetWidth;
+
+                    $(this)
+                        .addClass("animate")
+
+                });
+
+                $slide.find(".album-img").addClass("album-drop").css("animation-delay", "2s");
+                $slide.find(".bakelit-img").addClass("bakelit-slideInFromRight").css("animation-delay", "2.5s");
+                $slide.find(".phone-img").addClass("phone-fadeInUp").css("animation-delay", "3s");
+                $slide.find(".webproject-img").addClass("phone-fadeInUp").css("animation-delay", "2s");
+                $slide.find(".airplane-img").addClass("airoplane-animation").css("animation-delay", "3s");
+            });
+        });
+
+
+    </script>
+
+
+</body>
+
+</html>

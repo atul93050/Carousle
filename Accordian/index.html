@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Custom Accordion</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css">
+    <style>
+        .ca-active-root {
+            --ca-display: block !important;
+            --ca-body-display: flex !important;
+            --ca-item-height: max-content !important;
+            --ca-title-bg: transparent !important;
+            --ca-title-padding: 0 !important;
+            --ca-header-padding: 1rem !important;
+        }
+
+        .ca-wrapper {
+            border-radius: 1rem;
+            padding: 1rem;
+        }
+
+        .ca-item {
+            --ca-display: none;
+            --ca-body-display: none;
+            --ca-item-height: 0;
+            --ca-title-bg: #ebebeb;
+            --ca-title-padding: 1rem;
+            --ca-header-padding: 0;
+            height: var(--ca-item-height);
+            position: relative;
+            border: none;
+            max-height: 1000px;
+        }
+
+
+        .ca-active-root .ca-title {
+            background-color: #003d3d;
+            color: #cdface;
+        }
+
+        .ca-header {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: var(--ca-header-padding);
+        }
+
+        .ca-title {
+            font-size: 1rem;
+            cursor: pointer;
+            padding: var(--ca-title-padding);
+            background: var(--ca-title-bg);
+            border-radius: 0.75rem;
+            position: relative;
+            font-weight: 600;
+            display: inline-flex;
+            margin: 0;
+        }
+
+        .ca-title.ca-active {
+            background-color: #003d3d;
+            color: #cdface;
+        }
+
+        .ca-title::after {
+            content: "⯅";
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%) rotateX(0deg);
+            transform-origin: center;
+            font-size: 1.2rem;
+            transition: transform 0.4s ease-in;
+        }
+
+        .ca-title.ca-active::after {
+            transform: translateY(-50%) rotateX(180deg);
+        }
+
+        .ca-subtitle {
+            color: #fff;
+            opacity: .8;
+            text-align: left;
+            font-size: 0.8rem;
+            display: var(--ca-display);
+            margin: 0;
+        }
+
+        .ca-body {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+            padding: 0 12px;
+            transition: max-height 0.7s ease, opacity 1s ease;
+        }
+
+        .ca-item.ca-active-root .ca-body {
+            max-height: 500px;
+            opacity: 1;
+            padding: 12px;
+
+        }
+
+        .ca-img-wrapper {
+            flex-shrink: 0;
+            width: 110px;
+            position: relative;
+            display: flex;
+
+
+        }
+
+        .ca-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0.75rem;
+            display: block;
+            box-shadow: 0 2px 6px rgb(0 0 0 / 44%);
+        }
+
+        .ca-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .ca-logo {
+            position: absolute;
+            bottom: 3px;
+            left: 2px;
+            max-width: 60px;
+            background: #fff;
+            padding: 0.25rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .ca-content blockquote {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #fff;
+            position: relative;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .ca-content blockquote::before,
+        .ca-content blockquote::after {
+            position: relative;
+            display: inline;
+            opacity: 0.32;
+        }
+
+        .ca-content blockquote::before {
+            content: '“';
+            margin-right: .2em;
+        }
+
+        .ca-content blockquote::after {
+            content: '”';
+            margin-left: .2em;
+        }
+
+        .ca-bg {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            height: 100%;
+            width: 100%;
+            z-index: -1;
+            border-radius: 1rem;
+            background: #003d3d;
+        }
+
+        @media (max-width:768px) {
+            .ca-header {
+                text-align: center;
+                border-bottom: 1px solid rgb(255 255 255 / 16%);
+            }
+        }
+
+        .ca-author {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            justify-content: flex-start;
+        }
+
+        .ca-author .ca-name {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #cdface;
+            margin: 0;
+        }
+
+        .ca-author .ca-position {
+            font-size: .7rem;
+            color: #cdface;
+            opacity: .8;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <div class="container">
+            <div class="ca-wrapper">
+                <div class="ca-item">
+                    <div class="ca-bg"></div>
+
+                    <div class="ca-header">
+                        <h2 class="ca-title">HR Leaders</h2>
+                        <p class="ca-subtitle">
+                            Build and run talent management programs that scale your impact without growing headcount.
+                        </p>
+                    </div>
+
+                    <div class="ca-body">
+                        <div class="ca-img-wrapper">
+                            <img src="https://cdn.prod.website-files.com/64ad6f1aef87635bd23449f1/6842bab3cf0318a692183a84_testimo-shevta-malhan.webp"
+                                alt="" class="ca-img">
+                            <img src="https://cdn.prod.website-files.com/64ad6f1aef87635bd23449f1/64c28b77089cb036537697f7_logo-klick-health.svg"
+                                alt="" class="ca-logo">
+                        </div>
+
+                        <div class="ca-content">
+                            <blockquote>
+                                I love that Lattice makes it so our people leaders don’t have to hunt for information
+                                about their teams. Whether they are having one-on-ones, giving feedback, or engaging in
+                                a review cycle, our managers have all the context and information they need at their
+                                fingertips thanks to Lattice.
+                            </blockquote>
+                            <div class="ca-author">
+                                <p class="ca-name">Shevta Malhan</p>
+                                <span class="ca-position">Head of People Operations</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const accordionTitles = document.querySelectorAll('.ca-title');
+
+        accordionTitles.forEach((title) => {
+            title.addEventListener('click', () => {
+                const item = title.closest('.ca-item');
+                document.querySelectorAll('.ca-item').forEach(i => {
+                    if (i !== item) {
+                        i.classList.remove('ca-active-root');
+                        const innerTitle = i.querySelector('.ca-title');
+                        if (innerTitle) {
+                            innerTitle.classList.remove('ca-active');
+                        }
+                    }
+                });
+                title.classList.toggle('ca-active');
+                item.classList.toggle('ca-active-root');
+            });
+        });
+    </script>
+</body>
+
+</html>

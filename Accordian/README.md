@@ -2,8 +2,8 @@
 
 A responsive and interactive **accordion component** built with **HTML, CSS, and JavaScript**, styled with **Bootstrap 5**.  
 Each accordion item features images, logos, author details, and smooth open/close animations.
+![Image](image.png)
 
----
 
 ## 🚀 Features
 
@@ -14,7 +14,6 @@ Each accordion item features images, logos, author details, and smooth open/clos
 - ✅ Custom arrow icon rotation on toggle  
 - ✅ Mobile-friendly layout  
 
----
 
 ## 📂 Project Structure
 
